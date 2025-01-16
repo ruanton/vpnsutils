@@ -1,0 +1,17 @@
+<zeo>
+  address 127.0.0.1:8090
+</zeo>
+
+<filestorage>
+  path %(here)s/../zodb-data/Data.fs
+</filestorage>
+
+<eventlog>
+  <logfile>
+    path %(here)s/../logs/zeo.log
+    format %(asctime)s %(message)s
+    dateformat %Y-%m-%d %H:%M:%S
+    max-size 20mb
+    old-files 5
+  </logfile>
+</eventlog>

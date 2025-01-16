@@ -1,0 +1,69 @@
+###
+# app configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/environment.html
+###
+
+[app:main]
+use = egg:vpnsutils
+
+pyramid.reload_templates = false
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.default_locale_name = en
+
+# zodbconn.uri = file://%(here)s/../zodb-data/Data.fs?connection_cache_size=20000
+zodbconn.uri = zeo://localhost:8090?cache_size=25MB
+
+retry.attempts = 3
+
+
+[pshell]
+setup = vpnsutils.pshell.setup
+
+###
+# wsgi server configuration
+###
+
+[server:main]
+use = egg:waitress
+listen = *:6543
+
+###
+# logging configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html
+###
+
+[loggers]
+keys = root, vpnsutils
+
+[handlers]
+keys = file, file_warn
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = file, file_warn
+
+[logger_vpnsutils]
+level = INFO
+handlers =
+qualname = vpnsutils
+
+[handler_file]
+class = handlers.TimedRotatingFileHandler
+kwargs = {'filename': r'%(here)s/../logs/pshell.log', 'delay': True, 'when': 'midnight', 'backupCount': 14, 'encoding': 'UTF-8'}
+level = NOTSET
+formatter = generic
+
+[handler_file_warn]
+class = handlers.TimedRotatingFileHandler
+kwargs = {'filename': r'%(here)s/../logs/pshell-warn.log', 'delay': True, 'when': 'midnight', 'backupCount': 14, 'encoding': 'UTF-8'}
+level = WARN
+formatter = generic
+
+[formatter_generic]
+# format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
+format = %(asctime)s %(levelname)-5.5s %(message)s

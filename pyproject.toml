@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=61.2", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vpnsutils"
+authors = [
+    {name = "Anton Benderskiy", email = "loderan@ruservice.ru"}
+]
+description = "Scripts for my VPN servers"
+requires-python = ">=3.11"
+keywords = ["web", "pyramid", "pylons"]
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python",
+    "Framework :: Pyramid",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+]
+dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
+
+[project.scripts]
+snapstat = "vpnsutils.snapstat:main"
+
+[project.entry-points]
+"paste.app_factory" = {main = "vpnsutils:main"}
+
+[tool.setuptools.dynamic]
+version = {file = "VERSION"}
+readme = {file = ["README.rst", "CHANGES.rst"], content-type = "text/x-rst"}
+dependencies = {file = "requirements.txt"}
+optional-dependencies.testing = {file = ["requirements-testing.txt"]}
+
+[tool.setuptools.packages.find]
+exclude = ["tests"]
+namespaces = false
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--strict-markers"
+testpaths = [
+    "vpnsutils",
+    "tests",
+]
+filterwarnings = [
+    "default::DeprecationWarning:__main__",
+    "ignore:find_module.*is deprecated and slated for removal:DeprecationWarning",
+    "ignore:FileFinder.find_loader.*is deprecated and slated for removal:DeprecationWarning",
+    "ignore::DeprecationWarning:webob",
+    "ignore::DeprecationWarning:pkg_resources",
+    "ignore::DeprecationWarning:pyramid",
+]
