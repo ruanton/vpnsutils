@@ -40,6 +40,7 @@ Getting Started
     ./venv/bin/pip install -U -r requirements-*.txt
 
     # windows
+    .\venv\Scripts\pip install win-precise-time
     .\venv\Scripts\pip install -U -r requirements.txt
     .\venv\Scripts\pip install -U -r requirements-*.txt
 
