@@ -4,32 +4,11 @@
 ###
 
 [app:main]
-use = egg:vpnsutils
-
-pyramid.reload_templates = false
-pyramid.debug_authorization = false
-pyramid.debug_notfound = false
-pyramid.debug_routematch = false
-pyramid.default_locale_name = en
-
-zodbconn.uri = file://%(here)s/../zodb-data/Data.testing.fs?connection_cache_size=20000
-
-retry.attempts = 3
+use = config:defaults.ini
 
 # local 3X-UI (for my_view and tests)
 xui_name = umbrella
 
-
-[pshell]
-setup = vpnsutils.pshell.setup
-
-###
-# wsgi server configuration
-###
-
-[server:main]
-use = egg:waitress
-listen = localhost:6543
 
 ###
 # logging configuration
@@ -38,12 +17,6 @@ listen = localhost:6543
 
 [loggers]
 keys = root, vpnsutils
-
-[handlers]
-keys = console
-
-[formatters]
-keys = generic
 
 [logger_root]
 level = INFO
@@ -54,11 +27,17 @@ level = DEBUG
 handlers =
 qualname = vpnsutils
 
+[handlers]
+keys = console
+
 [handler_console]
 class = StreamHandler
 args = (sys.stderr,)
 level = NOTSET
 formatter = generic
+
+[formatters]
+keys = generic
 
 [formatter_generic]
 # format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s

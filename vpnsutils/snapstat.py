@@ -1,10 +1,6 @@
 import argparse
 import logging
 from pyramid.paster import bootstrap, setup_logging
-from pyramid_zodbconn import get_connection
-from pyramid.registry import Registry
-from pyramid.request import Request
-from ZODB.Connection import Connection
 from py3xui import Api
 from suid import utcnow
 from pathlib import Path
@@ -12,7 +8,6 @@ from pathlib import Path
 # module import
 from helpers.checktime import verify_time_is_correct
 from helpers.misc import xdescr, json_dumps
-from zmodels import get_app_root
 
 # local imports
 from .settings import settings
@@ -34,8 +29,7 @@ def main():
     verify_time_is_correct()
 
     # bootstrap Pyramid environment to get configuration
-    with bootstrap(args.config_uri) as env:
-        log.info('Started')
+    with bootstrap(args.config_uri):
         stats = {}
         log.info(f'connecting to: {settings.xui_name}')
         api = Api(settings.xui_url, settings.xui_username, settings.xui_password)

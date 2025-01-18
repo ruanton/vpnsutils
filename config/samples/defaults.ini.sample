@@ -1,0 +1,30 @@
+###
+# app configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/environment.html
+###
+
+[app:main]
+use = egg:vpnsutils
+
+pyramid.reload_templates = false
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.default_locale_name = en
+
+zodbconn.uri = file://%(here)s/../zodb-data/Data.fs?connection_cache_size=20000
+# zodbconn.uri = zeo://localhost:8090?cache_size=25MB
+
+retry.attempts = 3
+
+# rename or remove this and adjust in settings.py
+custom_app_parameter = 7
+
+
+###
+# wsgi server configuration
+###
+
+[server:main]
+use = egg:waitress
+listen = localhost:6543

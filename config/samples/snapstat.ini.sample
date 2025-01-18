@@ -4,19 +4,7 @@
 ###
 
 [app:main]
-use = egg:vpnsutils
-
-pyramid.reload_templates = false
-pyramid.debug_authorization = false
-pyramid.debug_notfound = false
-pyramid.debug_routematch = false
-pyramid.default_locale_name = en
-
-# zodbconn.uri = file://%(here)s/../zodb-data/Data.fs?connection_cache_size=20000
-zodbconn.uri = zeo://localhost:8090?cache_size=25MB
-
-retry.attempts = 3
-
+use = config:defaults.ini
 
 # local 3X-UI
 xui_name = umbrella
@@ -28,35 +16,30 @@ dir_snapshots = /opt/vpnsutils/www/snapshots
 
 
 ###
-# wsgi server configuration
-###
-
-[server:main]
-use = egg:waitress
-listen = *:6543
-
-###
 # logging configuration
 # https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html
 ###
 
 [loggers]
-keys = root, vpnsutils
-
-[handlers]
-keys = file, file_warn
-
-[formatters]
-keys = generic
+keys = root, myproj
 
 [logger_root]
 level = INFO
-handlers = file, file_warn
+handlers = console, file, file_warn
 
-[logger_vpnsutils]
+[logger_myproj]
 level = INFO
 handlers =
-qualname = vpnsutils
+qualname = myproj
+
+[handlers]
+keys = console, file, file_warn
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
 
 [handler_file]
 class = handlers.TimedRotatingFileHandler
@@ -69,6 +52,9 @@ class = handlers.TimedRotatingFileHandler
 kwargs = {'filename': r'%(here)s/../logs/snapstat-warn.log', 'delay': True, 'when': 'midnight', 'backupCount': 14, 'encoding': 'UTF-8'}
 level = WARN
 formatter = generic
+
+[formatters]
+keys = generic
 
 [formatter_generic]
 # format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s

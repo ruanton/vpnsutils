@@ -4,39 +4,27 @@
 ###
 
 [app:main]
-use = egg:vpnsutils
+use = config:defaults.ini
 
 pyramid.reload_templates = true
-pyramid.debug_authorization = false
-pyramid.debug_notfound = false
-pyramid.debug_routematch = false
-pyramid.default_locale_name = en
 pyramid.includes =
     pyramid_debugtoolbar
-
-# zodbconn.uri = file://%(here)s/../zodb-data/Data.fs?connection_cache_size=20000
-zodbconn.uri = zeo://localhost:8090?cache_size=25MB
-
-retry.attempts = 3
-
-# local 3X-UI (for my_view and tests)
-xui_name = umbrella
-
 
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.
 # debugtoolbar.hosts = 127.0.0.1 ::1
 
-[pshell]
-setup = vpnsutils.pshell.setup
+# local 3X-UI (for my_view and tests)
+xui_name = umbrella
+
 
 ###
 # wsgi server configuration
 ###
 
 [server:main]
-use = egg:waitress
-listen = localhost:6543
+use = config:defaults.ini
+
 
 ###
 # logging configuration
@@ -46,12 +34,6 @@ listen = localhost:6543
 [loggers]
 keys = root, vpnsutils
 
-[handlers]
-keys = console, file, file_warn
-
-[formatters]
-keys = generic
-
 [logger_root]
 level = INFO
 handlers = console, file, file_warn
@@ -60,6 +42,9 @@ handlers = console, file, file_warn
 level = DEBUG
 handlers =
 qualname = vpnsutils
+
+[handlers]
+keys = console, file, file_warn
 
 [handler_console]
 class = StreamHandler
@@ -78,6 +63,9 @@ class = handlers.TimedRotatingFileHandler
 kwargs = {'filename': r'%(here)s/../logs/websrv-warn.log', 'delay': True, 'when': 'midnight', 'backupCount': 14, 'encoding': 'UTF-8'}
 level = WARN
 formatter = generic
+
+[formatters]
+keys = generic
 
 [formatter_generic]
 # format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
