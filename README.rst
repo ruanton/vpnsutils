@@ -89,10 +89,11 @@ Getting Started
     # windows
     .\venv\Scripts\runzeo -C config\zeo.config
 
-- Run project's custom console script::
+- Run project's console scripts::
 
     # linux
     ./venv/bin/snapstat config/snapstat.ini
+    ./venv/bin/checktime || /sbin/reboot
 
     # windows
     .\venv\Scripts\snapstat config\snapstat.ini

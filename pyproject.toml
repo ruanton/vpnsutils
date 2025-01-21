@@ -21,6 +21,7 @@ dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
 
 [project.scripts]
 snapstat = "vpnsutils.snapstat:main"
+chacktime = "vpnsutils.checktime:main"
 
 [project.entry-points]
 "paste.app_factory" = {main = "vpnsutils:main"}

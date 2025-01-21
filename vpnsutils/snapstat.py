@@ -26,7 +26,7 @@ def main():
 
     # compares the local time with the time received from the NTP servers
     # throws an exception if it differs significantly
-    verify_time_is_correct()
+    verify_time_is_correct(diff_fatal=60.0)
 
     # bootstrap Pyramid environment to get configuration
     with bootstrap(args.config_uri):

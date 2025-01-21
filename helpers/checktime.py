@@ -10,7 +10,6 @@ from concurrent.futures import ThreadPoolExecutor
 # local imports
 from .misc import xdescr
 
-TIMESHIFT_SECONDS_FATAL = 10;     """Time shift in seconds for the exception to be raised"""
 TIMESHIFT_SECONDS_WARNING = 1;    """Time shift in seconds for the warning message to be logged"""
 TIMEOUT_SOCKET_DEFAULT = 2;       """Timeout in seconds for network socket operations"""
 NUM_MEASUREMENTS_REQUIRED = 5;    """Number of successful measurements required to assess time accuracy"""
@@ -30,17 +29,18 @@ class IncorrectSystemTimeError(RuntimeError):
     """The system time is incorrect compared to what was received via NTP"""
 
 
-def verify_time_is_correct(wait=True, log_result=True, log_unresponsive=False) -> float | None:
+def verify_time_is_correct(wait=True, log_result=True, log_unresponsive=False, diff_fatal=10.0) -> float | None:
     """
     Verifies that the system date/time matches that received via NTP.
     Raises IncorrectSystemTimeError if there is a mismatch.
     @param wait: wait until the required number of NTP servers give results.
     @param log_result: log the result to the standard Python logging system.
     @param log_unresponsive: log every time the NTP server does not respond.
+    @param diff_fatal: time shift in seconds for the exception to be raised.
     @return: time offset in seconds, the second-smallest result obtained using NTP servers, None if failed to measure.
     """
     while True:
-        offset = _verify_time_is_correct_internal(log_unresponsive)
+        offset = _verify_time_is_correct_internal(log_unresponsive, diff_fatal)
         if offset is not None or not wait:
             break
 
@@ -50,7 +50,7 @@ def verify_time_is_correct(wait=True, log_result=True, log_unresponsive=False) -
     return offset
 
 
-def _verify_time_is_correct_internal(log_unresponsive=True) -> float | None:
+def _verify_time_is_correct_internal(log_unresponsive: bool, diff_fatal: float) -> float | None:
     """
     Verifies that the system date/time matches that received via NTP.
     Raises IncorrectSystemTimeError if there is a mismatch.
@@ -110,7 +110,7 @@ def _verify_time_is_correct_internal(log_unresponsive=True) -> float | None:
     offsets = sorted(list(results.values()))
     offset = offsets[1]  # we take the second-smallest result
 
-    if offset > TIMESHIFT_SECONDS_FATAL:
+    if offset > diff_fatal:
         raise IncorrectSystemTimeError(f'system time differs from NTP by {offset:.2f} seconds')
     if offset > TIMESHIFT_SECONDS_WARNING:
         log.warning(f'system time differs from NTP by {offset:.2f} seconds')

@@ -5,17 +5,22 @@
       <w>addopts</w>
       <w>asctime</w>
       <w>benderskiy</w>
+      <w>checktime</w>
       <w>debugtoolbar</w>
       <w>dgst</w>
       <w>includeme</w>
       <w>levelname</w>
       <w>loderan</w>
+      <w>myscript</w>
       <w>mytemplate</w>
       <w>pserve</w>
       <w>routematch</w>
+      <w>ruanton</w>
       <w>runzeo</w>
+      <w>snapstat</w>
       <w>testpaths</w>
       <w>threadlocals</w>
+      <w>vpnsutils</w>
       <w>websrv</w>
       <w>xdescr</w>
       <w>zodbconn</w>
