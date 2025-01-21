@@ -69,7 +69,7 @@ def zodb_close():
             except Exception as ex:
                 log.warning(f'zodb_close: {ex}')
     else:
-        log.warning(f'zodb_close: no zodbconn database objects')
+        log.info(f'zodb_close: no zodbconn database objects')
 
 
 def sys_exit(status: str | int | None):
