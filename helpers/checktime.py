@@ -111,9 +111,9 @@ def _verify_time_is_correct_internal(log_unresponsive: bool, diff_fatal: float) 
     offset = offsets[1]  # we take the second-smallest result
 
     if offset > diff_fatal:
-        raise IncorrectSystemTimeError(f'system time differs from NTP by {offset:.2f} seconds')
+        raise IncorrectSystemTimeError(f'the system time differs from NTP by {offset:.2f} seconds')
     if offset > TIMESHIFT_SECONDS_WARNING:
-        log.warning(f'system time differs from NTP by {offset:.2f} seconds')
+        log.warning(f'the system time differs from NTP by {offset:.2f} seconds')
 
     if unresponsive_servers:
         # non-responsive servers where found, move their hostnames to the end of the list of NTP servers

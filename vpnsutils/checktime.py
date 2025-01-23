@@ -20,7 +20,8 @@ def main() -> int:
                 exit_code = 0  # system time is correct
                 break
 
-    except IncorrectSystemTimeError:
+    except IncorrectSystemTimeError as e:
+        log.warning(str(e))
         exit_code = 1  # system time is incorrect
 
     return exit_code
