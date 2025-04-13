@@ -2,6 +2,7 @@ import transaction
 import persistent
 import persistent.mapping
 import ZODB.Connection
+from datetime import datetime
 
 # noinspection PyUnresolvedReferences
 from BTrees.OOBTree import OOBTree
@@ -20,8 +21,12 @@ class AppRoot(persistent.Persistent):  # in Cookiecutter: base class was Persist
     __parent__ = __name__ = None   # used by Request.resource_path()
 
     def __init__(self):
-        # add custom DB initialization here
-        pass
+        self.last_snapshots: dict[str, dict] = OOBTree();  """Server hostname => latest traffic statistics fetched"""
+
+        self.tlog: dict[tuple[datetime, str, str], tuple[int, int]] = OOBTree()
+        """Traffic amount records: (hour, hostname, user_id) => (bytes downloaded, bytes uploaded)"""
+
+        self.issues: dict[datetime, str] = OOBTree();  """Log of errors or inconsistencies found"""
 
 
 def get_app_root(conn: ZODB.Connection.Connection) -> AppRoot:

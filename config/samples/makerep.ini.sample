@@ -1,0 +1,61 @@
+###
+# app configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/environment.html
+###
+
+[app:main]
+use = config:defaults.ini
+
+# list of URLs for VPN server traffic statistics
+urls_traffic_snapshots =
+    https://umbrella.bison.ru/secret_path/snapshots/
+    https://umbrella2.bison.ru/secret_path2/snapshots/
+
+# the directory for saving the report
+dir_report = /opt/vpnsutils/www/
+
+
+###
+# logging configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html
+###
+
+[loggers]
+keys = root, myproj
+
+[logger_root]
+level = INFO
+handlers = console, file, file_warn
+
+[logger_myproj]
+level = INFO
+handlers =
+qualname = myproj
+
+[handlers]
+keys = console, file, file_warn
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[handler_file]
+class = handlers.TimedRotatingFileHandler
+kwargs = {'filename': r'%(here)s/../logs/makerep.log', 'delay': True, 'when': 'midnight', 'backupCount': 14, 'encoding': 'UTF-8'}
+level = NOTSET
+formatter = generic
+
+[handler_file_warn]
+class = handlers.TimedRotatingFileHandler
+kwargs = {'filename': r'%(here)s/../logs/makerep-warn.log', 'delay': True, 'when': 'midnight', 'backupCount': 14, 'encoding': 'UTF-8'}
+level = WARN
+formatter = generic
+
+[formatters]
+keys = generic
+
+[formatter_generic]
+# format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s
+format = %(asctime)s %(levelname)-5.5s %(message)s

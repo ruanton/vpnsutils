@@ -12,6 +12,7 @@ import functools
 import csv
 import jsonpickle
 import requests
+import asyncio
 import aiohttp
 from collections.abc import Iterable, Callable
 from requests.exceptions import ConnectionError
@@ -78,7 +79,7 @@ async def aiohttp_request_json(method: str, url: str, tries: int = 5, retry_paus
                 raise
 
         if retry_pause > 0:
-            time.sleep(random.uniform(retry_pause / 2.0, retry_pause))
+            await asyncio.sleep(random.uniform(retry_pause / 2.0, retry_pause))
         tries -= 1
 
 

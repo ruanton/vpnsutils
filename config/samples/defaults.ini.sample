@@ -17,6 +17,31 @@ zodbconn.uri = file://%(here)s/../zodb-data/Data.fs?connection_cache_size=20000
 
 retry.attempts = 3
 
+# maximum non-fatal local time drift with respect to NTP, seconds
+max_allowable_time_drift = 60.0
+
+# key names for comment and datetime values saved in snapshot json
+snapshot_dict_datetime_key = __datetime
+snapshot_dict_comment_key = __comment
+
+# maximum number of simultaneous HTTP connections
+aiohttp_limit_per_host = 20
+
+# the number of attempts to execute an HTTP request before failure
+aiohttp_tries = 5
+
+# pause after the first failed HTTP request, seconds
+aiohttp_retry_pause_initial = 2.0
+
+# multiplier for the next pause in case of unsuccessful repeated HTTP request
+aiohttp_retry_pause_multiplier = 2.0
+
+# file name suffix format for saving a snapshot
+snapshot_filename_suffix_format = %%Y%%m%%d-%%H%%M%%S.json
+
+# the length of the file name suffix according to the format
+snapshot_filename_suffix_length = 20
+
 # rename or remove this and adjust in settings.py
 custom_app_parameter = 7
 

@@ -65,6 +65,7 @@ Getting Started
     # linux
     cp config/samples/defaults.ini.sample config/defaults.ini
     cp config/samples/snapstat.ini.sample config/snapstat.ini
+    cp config/samples/makerep.ini.sample config/makerep.ini
     cp config/samples/websrv.ini.sample config/websrv.ini
     cp config/samples/websrv-dev.ini.sample config/websrv-dev.ini
     cp config/samples/pshell.ini.sample config/pshell.ini
@@ -92,11 +93,13 @@ Getting Started
 - Run project's console scripts::
 
     # linux
-    ./venv/bin/snapstat config/snapstat.ini
+    ./venv/bin/snapstat
+    ./venv/bin/makerep
     ./venv/bin/checktime || /sbin/reboot
 
     # windows
-    .\venv\Scripts\snapstat config\snapstat.ini
+    .\venv\Scripts\snapstat
+    .\venv\Scripts\makerep
 
 - Run Pyramid Shell::
 
